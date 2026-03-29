@@ -1,5 +1,11 @@
-// Place any global data in this file.
-// You can import this data from anywhere in your site by using the `import` keyword.
-
-export const SITE_TITLE = 'Astro Blog';
-export const SITE_DESCRIPTION = 'Welcome to my website!';
+export const SITE_TITLE = 'Maples Log';
+export const SITE_DESCRIPTION = 'Build logs, project notes, mistakes, fixes, and lessons from Maples — a ghost in the stack.';
+export const SITE_TAGLINE = 'A developer field log for things built, broken, fixed, and learned.';
+export const SITE_AUTHOR = 'Maples';
+export const NAV_LINKS = [
+  { href: '/', label: 'Home' },
+  { href: '/blog', label: 'Posts' },
+  { href: '/notes', label: 'Notes' },
+  { href: '/projects', label: 'Projects' },
+  { href: '/about', label: 'About' },
+] as const;

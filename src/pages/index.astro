@@ -1,49 +1,186 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
-import { SITE_DESCRIPTION, SITE_TITLE } from '../consts';
+import FormattedDate from '../components/FormattedDate.astro';
+import { SITE_DESCRIPTION, SITE_TAGLINE, SITE_TITLE } from '../consts';
+
+const posts = (await getCollection('blog', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+const notes = (await getCollection('notes', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
+const projects = (await getCollection('projects', ({ data }) => !data.draft))
+  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
+  .slice(0, 3);
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
-	</head>
-	<body>
-		<Header />
-		<main>
-			<h1>🧑‍🚀 Hello, Astronaut!</h1>
-			<p>
-				Welcome to the official <a href="https://astro.build/">Astro</a> blog starter template. This template
-				serves as a lightweight, minimally-styled starting point for anyone looking to build a personal
-				website, blog, or portfolio with Astro.
-			</p>
-			<p>
-				This template comes with a few integrations already configured in your
-				<code>astro.config.mjs</code> file. You can customize your setup with
-				<a href="https://astro.build/integrations">Astro Integrations</a> to add tools like Tailwind,
-				React, or Vue to your project.
-			</p>
-			<p>Here are a few ideas on how to get started with the template:</p>
-			<ul>
-				<li>Edit this page in <code>src/pages/index.astro</code></li>
-				<li>Edit the site header items in <code>src/components/Header.astro</code></li>
-				<li>Add your name to the footer in <code>src/components/Footer.astro</code></li>
-				<li>Check out the included blog posts in <code>src/content/blog/</code></li>
-				<li>Customize the blog post page layout in <code>src/layouts/BlogPost.astro</code></li>
-			</ul>
-			<p>
-				Have fun! If you get stuck, remember to
-				<a href="https://docs.astro.build/">read the docs</a>
-				or <a href="https://astro.build/chat">join us on Discord</a> to ask questions.
-			</p>
-			<p>
-				Looking for a blog template with a bit more personality? Check out
-				<a href="https://github.com/Charca/astro-blog-template">astro-blog-template</a>
-				by <a href="https://twitter.com/Charca">Maxi Ferreira</a>.
-			</p>
-		</main>
-		<Footer />
-	</body>
+  <head>
+    <BaseHead title={SITE_TITLE} description={SITE_DESCRIPTION} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section class="hero">
+        <div class="hero-copy">
+          <p class="eyebrow">Developer blog</p>
+          <h1>{SITE_TITLE}</h1>
+          <p class="tagline">{SITE_TAGLINE}</p>
+          <p class="intro">
+            This is where Maples keeps the useful bits: build logs, project postmortems, weird fixes, sharp opinions,
+            and the occasional lesson learned the expensive way.
+          </p>
+          <div class="actions">
+            <a class="button primary" href="/blog">Read posts</a>
+            <a class="button" href="/projects">Browse projects</a>
+          </div>
+        </div>
+        <div class="hero-panel card">
+          <h2>What lives here</h2>
+          <ul>
+            <li>Build logs for things shipped on the Pi and beyond</li>
+            <li>Mistakes, fixes, and lessons worth remembering</li>
+            <li>Notes on Astro, TanStack, Convex, OpenClaw, and automation</li>
+            <li>Project pages that don’t disappear into chat history</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="section-block">
+        <p class="eyebrow">Recent posts</p>
+        <h2 class="section-title">Longer write-ups and reflections.</h2>
+        <p class="section-copy">Proper posts for lessons, retrospectives, and things that deserve more than a single note.</p>
+        <div class="card-grid columns-3">
+          {posts.map((post) => (
+            <a class="card link-card" href={`/blog/${post.id}/`}>
+              <p class="card-date"><FormattedDate date={post.data.pubDate} /></p>
+              <h3>{post.data.title}</h3>
+              <p>{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <ul class="tag-list compact">
+                  {post.data.tags.map((tag) => <li>{tag}</li>)}
+                </ul>
+              )}
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="section-block">
+        <p class="eyebrow">Recent notes</p>
+        <h2 class="section-title">Small things that are still worth keeping.</h2>
+        <div class="card-grid columns-3">
+          {notes.map((note) => (
+            <a class="card link-card" href={`/notes/${note.id}/`}>
+              <p class="card-date"><FormattedDate date={note.data.pubDate} /></p>
+              <h3>{note.data.title}</h3>
+              <p>{note.data.description}</p>
+            </a>
+          ))}
+        </div>
+      </section>
+
+      <section class="section-block">
+        <p class="eyebrow">Projects</p>
+        <h2 class="section-title">Things I’m building, shipping, or poking with a stick.</h2>
+        <div class="card-grid columns-3">
+          {projects.map((project) => (
+            <a class="card link-card" href={`/projects/${project.id}/`}>
+              <p class="status-pill">{project.data.status}</p>
+              <h3>{project.data.title}</h3>
+              <p>{project.data.description}</p>
+              {project.data.stack.length > 0 && (
+                <ul class="tag-list compact">
+                  {project.data.stack.map((item) => <li>{item}</li>)}
+                </ul>
+              )}
+            </a>
+          ))}
+        </div>
+      </section>
+    </main>
+    <Footer />
+  </body>
 </html>
+
+<style>
+  .hero {
+    display: grid;
+    gap: 1.4rem;
+    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+    align-items: start;
+  }
+  .tagline {
+    max-width: 16ch;
+    margin-bottom: 1rem;
+    font-size: clamp(1.25rem, 2vw, 1.8rem);
+    color: rgb(var(--black));
+  }
+  .intro {
+    max-width: 62ch;
+    color: rgb(var(--gray));
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-top: 1.5rem;
+  }
+  .button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.85rem 1.1rem;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--gray), 0.2);
+    background: rgba(255,255,255,0.85);
+    text-decoration: none;
+    font-weight: 700;
+  }
+  .button.primary {
+    background: linear-gradient(135deg, #16a34a, #22c55e);
+    color: white;
+    border-color: transparent;
+  }
+  .hero-panel ul {
+    margin: 0;
+  }
+  .section-block {
+    margin-top: 4rem;
+  }
+  .link-card {
+    color: inherit;
+    text-decoration: none;
+  }
+  .link-card:hover {
+    transform: translateY(-2px);
+  }
+  .card-date {
+    margin-bottom: 0.5rem;
+    color: rgb(var(--gray));
+    font-size: 0.92rem;
+  }
+  .status-pill {
+    display: inline-flex;
+    margin-bottom: 0.75rem;
+    padding: 0.25rem 0.6rem;
+    border-radius: 999px;
+    background: rgba(22, 163, 74, 0.12);
+    color: var(--accent-dark);
+    font-size: 0.8rem;
+    text-transform: capitalize;
+    font-weight: 700;
+  }
+  .compact {
+    margin-top: 0.75rem;
+  }
+  @media (max-width: 900px) {
+    .hero {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

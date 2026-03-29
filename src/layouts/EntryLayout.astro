@@ -1,0 +1,110 @@
+---
+import { Image } from 'astro:assets';
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import FormattedDate from '../components/FormattedDate.astro';
+import Header from '../components/Header.astro';
+
+interface Props {
+  title: string;
+  description: string;
+  pubDate?: Date;
+  updatedDate?: Date;
+  heroImage?: any;
+  tags?: string[];
+}
+
+const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
+---
+
+<html lang="en">
+  <head>
+    <BaseHead title={title} description={description} image={heroImage} />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <article class="entry-shell">
+        <div class="entry-intro">
+          <p class="eyebrow">Maples log</p>
+          <h1>{title}</h1>
+          <p class="description">{description}</p>
+          {(pubDate || updatedDate) && (
+            <div class="dates">
+              {pubDate && (
+                <span>
+                  Published <FormattedDate date={pubDate} />
+                </span>
+              )}
+              {updatedDate && (
+                <span>
+                  Updated <FormattedDate date={updatedDate} />
+                </span>
+              )}
+            </div>
+          )}
+          {tags.length > 0 && (
+            <ul class="tag-list">
+              {tags.map((tag) => <li>{tag}</li>)}
+            </ul>
+          )}
+        </div>
+
+        {heroImage && (
+          <div class="hero-image">
+            <Image width={1400} src={heroImage} alt="" />
+          </div>
+        )}
+
+        <div class="prose">
+          <slot />
+        </div>
+      </article>
+    </main>
+    <Footer />
+  </body>
+</html>
+
+<style>
+  .entry-shell {
+    display: grid;
+    gap: 2rem;
+  }
+  .entry-intro,
+  .prose {
+    max-width: 760px;
+    width: 100%;
+  }
+  .description {
+    max-width: 44rem;
+    font-size: 1.05rem;
+    color: rgb(var(--gray));
+  }
+  .dates {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-top: 1rem;
+    color: rgb(var(--gray));
+    font-size: 0.95rem;
+  }
+  .hero-image img {
+    width: 100%;
+    box-shadow: var(--box-shadow);
+  }
+  .prose {
+    padding: 2rem;
+    border-radius: 1.6rem;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid rgba(var(--gray), 0.14);
+    box-shadow: var(--box-shadow);
+  }
+  .prose :global(h2) {
+    margin-top: 2rem;
+  }
+  @media (max-width: 720px) {
+    .prose {
+      padding: 1.25rem;
+    }
+  }
+</style>

@@ -5,7 +5,7 @@ import Footer from '../../components/Footer.astro';
 import FormattedDate from '../../components/FormattedDate.astro';
 import Header from '../../components/Header.astro';
 
-const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
+const notes = (await getCollection('notes', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
 ---
@@ -13,28 +13,28 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
 <!doctype html>
 <html lang="en">
   <head>
-    <BaseHead title="Posts | Maples Log" description="Longer write-ups, build logs, and lessons learned." />
+    <BaseHead title="Notes | Maples Log" description="Short notes, ideas, and snippets worth keeping." />
   </head>
   <body>
     <Header />
     <main>
       <section>
-        <p class="eyebrow">Posts</p>
-        <h1>Longer entries worth keeping.</h1>
-        <p class="section-copy">Build logs, retrospectives, mistakes, fixes, and anything that deserves more than a short note.</p>
+        <p class="eyebrow">Notes</p>
+        <h1>Short entries, useful scraps.</h1>
+        <p class="section-copy">For things too small to become a full post but too useful to lose.</p>
       </section>
 
       <section class="list-shell">
-        {posts.map((post) => (
-          <a class="item card" href={`/blog/${post.id}/`}>
+        {notes.map((note) => (
+          <a class="item card" href={`/notes/${note.id}/`}>
             <div>
-              <p class="meta"><FormattedDate date={post.data.pubDate} /></p>
-              <h2>{post.data.title}</h2>
-              <p>{post.data.description}</p>
+              <p class="meta"><FormattedDate date={note.data.pubDate} /> · {note.data.kind}</p>
+              <h2>{note.data.title}</h2>
+              <p>{note.data.description}</p>
             </div>
-            {post.data.tags.length > 0 && (
+            {note.data.tags.length > 0 && (
               <ul class="tag-list">
-                {post.data.tags.map((tag) => <li>{tag}</li>)}
+                {note.data.tags.map((tag) => <li>{tag}</li>)}
               </ul>
             )}
           </a>
@@ -55,14 +55,9 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
     color: inherit;
     text-decoration: none;
   }
-  .item:hover {
-    transform: translateY(-2px);
-  }
   .meta {
     color: rgb(var(--gray));
     font-size: 0.92rem;
-  }
-  h2 {
-    margin-bottom: 0.5rem;
+    text-transform: capitalize;
   }
 </style>

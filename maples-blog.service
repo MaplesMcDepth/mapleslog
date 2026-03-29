@@ -1,0 +1,19 @@
+[Unit]
+Description=Maples Log (Astro static blog)
+After=network.target
+
+[Service]
+Type=simple
+WorkingDirectory=/home/wmckee/.openclaw/workspace/projects/maples-blog
+Environment=SITE_URL=http://192.168.4.56:3003
+Environment=HOST=0.0.0.0
+Environment=PORT=3003
+ExecStartPre=/usr/bin/npm run build
+ExecStart=/usr/bin/python3 -m http.server 3003 --bind 0.0.0.0 --directory dist
+Restart=always
+RestartSec=5
+KillMode=mixed
+TimeoutStopSec=15
+
+[Install]
+WantedBy=default.target
