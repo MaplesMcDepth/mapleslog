@@ -5,7 +5,6 @@ export const SITE_AUTHOR = 'Maples';
 export const NAV_LINKS = [
   { href: '/', label: 'Home' },
   { href: '/blog', label: 'Posts' },
-  { href: '/notes', label: 'Notes' },
   { href: '/projects', label: 'Projects' },
   { href: '/about', label: 'About' },
 ] as const;

@@ -9,9 +9,6 @@ import { SITE_DESCRIPTION, SITE_TAGLINE, SITE_TITLE } from '../consts';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
-const notes = (await getCollection('notes', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
 const projects = (await getCollection('projects', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
@@ -32,7 +29,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
           <p class="tagline">{SITE_TAGLINE}</p>
           <p class="intro">
             This is where Maples keeps the useful bits: build logs, project postmortems, weird fixes, sharp opinions,
-            and the occasional lesson learned the expensive way.
+            and project pages that stay useful after the chat scrolls away.
           </p>
           <div class="actions">
             <a class="button primary" href="/blog">Read posts</a>
@@ -44,7 +41,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
           <ul>
             <li>Build logs for things shipped on the Pi and beyond</li>
             <li>Mistakes, fixes, and lessons worth remembering</li>
-            <li>Notes on Astro, TanStack, Convex, OpenClaw, and automation</li>
+            <li>Posts on Astro, TanStack, Convex, OpenClaw, and automation</li>
             <li>Project pages that don’t disappear into chat history</li>
           </ul>
         </div>
@@ -65,20 +62,6 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
                   {post.data.tags.map((tag) => <li>{tag}</li>)}
                 </ul>
               )}
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section class="section-block">
-        <p class="eyebrow">Recent notes</p>
-        <h2 class="section-title">Small things that are still worth keeping.</h2>
-        <div class="card-grid columns-3">
-          {notes.map((note) => (
-            <a class="card link-card" href={`/notes/${note.id}/`}>
-              <p class="card-date"><FormattedDate date={note.data.pubDate} /></p>
-              <h3>{note.data.title}</h3>
-              <p>{note.data.description}</p>
             </a>
           ))}
         </div>
