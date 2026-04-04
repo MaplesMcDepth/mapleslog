@@ -10,15 +10,27 @@ const isActive = href === pathname || href === '/' + (subpath?.[0] || '');
 ---
 
 <a href={href} class:list={[className, { active: isActive }]} {...props}>
-	<slot />
+  <slot />
 </a>
 <style>
-	a {
-		display: inline-block;
-		text-decoration: none;
-	}
-	a.active {
-		font-weight: bolder;
-		text-decoration: underline;
-	}
+  a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2.5rem;
+    padding: 0.55rem 0.9rem;
+    border-radius: 999px;
+    color: rgb(var(--text-secondary));
+    text-decoration: none;
+    transition: background 140ms ease, color 140ms ease;
+  }
+  a:hover {
+    background: rgba(var(--surface-muted), 0.94);
+    color: rgb(var(--text-primary));
+  }
+  a.active {
+    font-weight: 700;
+    color: rgb(var(--text-primary));
+    background: rgba(var(--surface-muted), 0.98);
+    text-decoration: none;
+  }
 </style>

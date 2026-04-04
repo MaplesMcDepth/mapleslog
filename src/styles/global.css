@@ -1,12 +1,37 @@
 :root {
-  --accent: #16a34a;
-  --accent-dark: #166534;
+  --accent: #ff7a45;
+  --accent-dark: #c2410c;
   --black: 15, 23, 42;
   --gray: 100, 116, 139;
   --gray-light: 226, 232, 240;
   --gray-dark: 30, 41, 59;
-  --gray-gradient: rgba(241, 245, 249, 1), #ffffff;
+  --bg-start: 241, 245, 249;
+  --bg-end: 255, 255, 255;
+  --surface: 255, 255, 255;
+  --surface-elevated: 255, 255, 255;
+  --surface-muted: 248, 250, 252;
+  --line: 148, 163, 184;
+  --text-primary: 15, 23, 42;
+  --text-secondary: 100, 116, 139;
   --box-shadow: 0 20px 60px rgba(15, 23, 42, 0.12);
+}
+
+:root[data-theme='dark'] {
+  --accent: #ff9a62;
+  --accent-dark: #ffd2b8;
+  --black: 244, 244, 245;
+  --gray: 161, 161, 170;
+  --gray-light: 39, 39, 42;
+  --gray-dark: 228, 228, 231;
+  --bg-start: 12, 12, 14;
+  --bg-end: 20, 20, 24;
+  --surface: 18, 18, 22;
+  --surface-elevated: 24, 24, 29;
+  --surface-muted: 28, 28, 34;
+  --line: 63, 63, 70;
+  --text-primary: 244, 244, 245;
+  --text-secondary: 161, 161, 170;
+  --box-shadow: 0 24px 80px rgba(0, 0, 0, 0.38);
 }
 @font-face {
   font-family: 'Atkinson';
@@ -31,12 +56,13 @@ body {
   font-family: 'Atkinson', sans-serif;
   text-align: left;
   background:
-    radial-gradient(circle at top, rgba(134, 239, 172, 0.18), transparent 28%),
-    linear-gradient(var(--gray-gradient)) no-repeat;
-  color: rgb(var(--gray-dark));
+    radial-gradient(circle at top, rgba(255, 122, 69, 0.16), transparent 28%),
+    linear-gradient(180deg, rgb(var(--bg-start)), rgb(var(--bg-end))) no-repeat;
+  color: rgb(var(--text-primary));
   font-size: 19px;
   line-height: 1.7;
   min-height: 100vh;
+  transition: background 160ms ease, color 160ms ease;
 }
 main {
   width: min(1100px, calc(100% - 2rem));
@@ -45,7 +71,7 @@ main {
 }
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 0.6rem;
-  color: rgb(var(--black));
+  color: rgb(var(--text-primary));
   line-height: 1.15;
 }
 h1 {
@@ -92,11 +118,11 @@ blockquote {
   margin: 1.5rem 0;
   padding: 0.25rem 0 0.25rem 1rem;
   border-left: 4px solid var(--accent);
-  color: rgb(var(--gray));
+  color: rgb(var(--text-secondary));
 }
 hr {
   border: none;
-  border-top: 1px solid rgba(var(--gray), 0.25);
+  border-top: 1px solid rgba(var(--line), 0.25);
 }
 .card-grid {
   display: grid;
@@ -110,9 +136,9 @@ hr {
 }
 .card {
   padding: 1.4rem;
-  border: 1px solid rgba(var(--gray), 0.16);
+  border: 1px solid rgba(var(--line), 0.16);
   border-radius: 1.4rem;
-  background: rgba(255,255,255,0.84);
+  background: rgba(var(--surface), 0.88);
   box-shadow: var(--box-shadow);
 }
 .eyebrow {
@@ -120,7 +146,7 @@ hr {
   margin-bottom: 0.75rem;
   padding: 0.35rem 0.7rem;
   border-radius: 999px;
-  background: rgba(22, 163, 74, 0.1);
+  background: color-mix(in srgb, var(--accent) 14%, transparent);
   color: var(--accent-dark);
   font-size: 0.78rem;
   font-weight: 700;
@@ -132,7 +158,7 @@ hr {
 }
 .section-copy {
   max-width: 60ch;
-  color: rgb(var(--gray));
+  color: rgb(var(--text-secondary));
 }
 .tag-list {
   display: flex;
@@ -145,8 +171,8 @@ hr {
 .tag-list li {
   padding: 0.3rem 0.7rem;
   border-radius: 999px;
-  background: rgba(15, 23, 42, 0.06);
-  color: rgb(var(--gray-dark));
+  background: rgba(var(--surface-muted), 0.9);
+  color: rgb(var(--text-primary));
   font-size: 0.82rem;
 }
 .sr-only {

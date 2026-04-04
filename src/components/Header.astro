@@ -7,19 +7,50 @@ import HeaderLink from './HeaderLink.astro';
   <nav>
     <a class="brand" href="/">
       <span class="brand-mark">🍁</span>
-      <span>
+      <span class="brand-copy">
         <strong>{SITE_TITLE}</strong>
         <small>ghost in the stack</small>
       </span>
     </a>
 
-    <div class="internal-links">
-      {NAV_LINKS.map((link) => (
-        <HeaderLink href={link.href}>{link.label}</HeaderLink>
-      ))}
+    <div class="nav-cluster">
+      <div class="internal-links">
+        {NAV_LINKS.map((link) => (
+          <HeaderLink href={link.href}>{link.label}</HeaderLink>
+        ))}
+      </div>
+
+      <button class="theme-toggle" type="button" aria-label="Toggle dark mode" data-theme-toggle>
+        <span class="theme-icon sun">☀️</span>
+        <span class="theme-icon moon">🌙</span>
+      </button>
     </div>
   </nav>
 </header>
+
+<script is:inline>
+  const root = document.documentElement;
+  const storageKey = 'maples-theme';
+  const saved = localStorage.getItem(storageKey);
+  const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+  if (!root.dataset.theme) root.dataset.theme = saved || preferred;
+
+  const updateTheme = () => {
+    document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+      button.setAttribute('aria-pressed', String(root.dataset.theme === 'dark'));
+    });
+  };
+
+  updateTheme();
+
+  document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
+    button.addEventListener('click', () => {
+      root.dataset.theme = root.dataset.theme === 'dark' ? 'light' : 'dark';
+      localStorage.setItem(storageKey, root.dataset.theme);
+      updateTheme();
+    });
+  });
+</script>
 
 <style>
   header {
@@ -27,9 +58,9 @@ import HeaderLink from './HeaderLink.astro';
     top: 0;
     z-index: 20;
     padding: 0 1rem;
-    background: rgba(248, 250, 252, 0.86);
+    background: rgba(var(--surface), 0.78);
     backdrop-filter: blur(16px);
-    border-bottom: 1px solid rgba(var(--gray), 0.15);
+    border-bottom: 1px solid rgba(var(--line), 0.16);
   }
   nav {
     max-width: 1100px;
@@ -44,8 +75,14 @@ import HeaderLink from './HeaderLink.astro';
     display: inline-flex;
     align-items: center;
     gap: 0.85rem;
-    color: rgb(var(--black));
+    color: rgb(var(--text-primary));
     text-decoration: none;
+    min-width: 0;
+  }
+  .brand-copy {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
   }
   .brand strong {
     display: block;
@@ -53,19 +90,26 @@ import HeaderLink from './HeaderLink.astro';
   }
   .brand small {
     display: block;
-    color: rgb(var(--gray));
+    color: rgb(var(--text-secondary));
     font-size: 0.8rem;
   }
   .brand-mark {
-    width: 2.5rem;
-    height: 2.5rem;
+    width: 2.6rem;
+    height: 2.6rem;
     display: inline-flex;
     align-items: center;
     justify-content: center;
     border-radius: 999px;
-    background: linear-gradient(135deg, #9ae6b4, #68d391);
-    box-shadow: 0 10px 30px rgba(22, 101, 52, 0.18);
+    background: linear-gradient(135deg, var(--accent), #ffd2b8);
+    box-shadow: 0 10px 30px rgba(194, 65, 12, 0.22);
     font-size: 1.15rem;
+    flex: 0 0 auto;
+  }
+  .nav-cluster {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 0.6rem;
   }
   .internal-links {
     display: flex;
@@ -74,15 +118,38 @@ import HeaderLink from './HeaderLink.astro';
     justify-content: flex-end;
     gap: 0.2rem;
   }
+  .theme-toggle {
+    width: 2.8rem;
+    height: 2.8rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    border-radius: 999px;
+    border: 1px solid rgba(var(--line), 0.25);
+    background: rgba(var(--surface-muted), 0.9);
+    color: rgb(var(--text-primary));
+    cursor: pointer;
+  }
+  .theme-icon {
+    position: absolute;
+    transition: opacity 140ms ease, transform 140ms ease;
+  }
+  :root[data-theme='light'] .theme-icon.moon,
+  :root[data-theme='dark'] .theme-icon.sun {
+    opacity: 0;
+    transform: scale(0.75);
+  }
   @media (max-width: 760px) {
     nav {
       padding: 0.75rem 0;
       align-items: flex-start;
       flex-direction: column;
     }
+    .nav-cluster,
     .internal-links {
       width: 100%;
-      justify-content: flex-start;
+      justify-content: space-between;
     }
   }
 </style>

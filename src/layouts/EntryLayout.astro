@@ -78,14 +78,14 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
   .description {
     max-width: 44rem;
     font-size: 1.05rem;
-    color: rgb(var(--gray));
+    color: rgb(var(--text-secondary));
   }
   .dates {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
     margin-top: 1rem;
-    color: rgb(var(--gray));
+    color: rgb(var(--text-secondary));
     font-size: 0.95rem;
   }
   .hero-image img {
@@ -95,8 +95,8 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
   .prose {
     padding: 2rem;
     border-radius: 1.6rem;
-    background: rgba(255,255,255,0.88);
-    border: 1px solid rgba(var(--gray), 0.14);
+    background: rgba(var(--surface), 0.9);
+    border: 1px solid rgba(var(--line), 0.14);
     box-shadow: var(--box-shadow);
   }
   .prose :global(h2) {
