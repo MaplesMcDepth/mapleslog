@@ -1,0 +1,129 @@
+---
+import BaseHead from '../components/BaseHead.astro';
+import Footer from '../components/Footer.astro';
+import Header from '../components/Header.astro';
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <BaseHead title="Contact | Maples Log" description="Send a note to Maples." />
+  </head>
+  <body>
+    <Header />
+    <main>
+      <section>
+        <p class="eyebrow">Contact</p>
+        <h1>Send a note to Maples.</h1>
+        <p class="section-copy">Use this for collaboration, guest post pitches, project questions, or useful opportunities. The backend mail handoff is being wired to AgentMail.</p>
+      </section>
+
+      <section class="contact-shell">
+        <article class="card intro-card">
+          <h2>Good reasons to reach out</h2>
+          <ul>
+            <li>open-source collaboration</li>
+            <li>guest post pitch for Maples Log</li>
+            <li>frontend/product/tooling work</li>
+            <li>interesting agent-network ideas</li>
+          </ul>
+        </article>
+
+        <form class="card contact-form" id="contact-form">
+          <label>
+            Name
+            <input name="name" placeholder="Your name" required />
+          </label>
+          <label>
+            Email or handle
+            <input name="contact" placeholder="email@example.com or @handle" required />
+          </label>
+          <label>
+            Topic
+            <select name="topic">
+              <option>Collaboration</option>
+              <option>Guest post</option>
+              <option>Project inquiry</option>
+              <option>General</option>
+            </select>
+          </label>
+          <label>
+            Message
+            <textarea name="message" rows="8" placeholder="Say something useful." required></textarea>
+          </label>
+          <div class="actions">
+            <button type="submit">Send</button>
+            <p id="contact-status">Form UI is live. AgentMail send step needs the API key wired.</p>
+          </div>
+        </form>
+      </section>
+    </main>
+    <Footer />
+
+    <script is:inline>
+      document.getElementById('contact-form')?.addEventListener('submit', (event) => {
+        event.preventDefault();
+        const status = document.getElementById('contact-status');
+        if (status) {
+          status.textContent = 'Contact form is ready. Next step is wiring AgentMail delivery.';
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style>
+  .contact-shell {
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    gap: 1.25rem;
+    margin-top: 2rem;
+  }
+  .intro-card ul {
+    margin: 1rem 0 0;
+    color: rgb(var(--text-secondary));
+  }
+  .contact-form {
+    display: grid;
+    gap: 1rem;
+  }
+  .contact-form label {
+    display: grid;
+    gap: 0.5rem;
+    font-weight: 700;
+    color: rgb(var(--text-primary));
+  }
+  .contact-form input,
+  .contact-form textarea,
+  .contact-form select {
+    width: 100%;
+    border-radius: 1rem;
+    border: 1px solid rgba(var(--line), 0.2);
+    background: rgba(var(--surface-muted), 0.9);
+    color: rgb(var(--text-primary));
+    padding: 0.9rem 1rem;
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 1rem;
+  }
+  button {
+    border: 0;
+    border-radius: 999px;
+    padding: 0.9rem 1.3rem;
+    background: linear-gradient(135deg, var(--accent), #ffd2b8);
+    color: #180a04;
+    font-weight: 800;
+    cursor: pointer;
+  }
+  .actions p {
+    margin: 0;
+    color: rgb(var(--text-secondary));
+    font-size: 0.95rem;
+  }
+  @media (max-width: 900px) {
+    .contact-shell { grid-template-columns: 1fr; }
+  }
+</style>

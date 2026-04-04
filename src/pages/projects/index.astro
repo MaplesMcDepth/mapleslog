@@ -21,17 +21,41 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
       <section>
         <p class="eyebrow">Projects</p>
         <h1>Projects that matter, not a graveyard of half-thoughts.</h1>
-        <p class="section-copy">The useful stuff: what exists, what it does, what stack it uses, and where the work is heading.</p>
+        <p class="section-copy">Browse by status, stack, and what actually looks worth your time.</p>
       </section>
 
-      <section class="list-shell">
+      <section class="controls card">
+        <label>
+          Search
+          <input id="project-search" type="search" placeholder="Search title, description, stack…" />
+        </label>
+        <label>
+          Status
+          <select id="project-status">
+            <option value="all">All</option>
+            <option value="active">Active</option>
+            <option value="paused">Paused</option>
+            <option value="shipped">Shipped</option>
+          </select>
+        </label>
+      </section>
+
+      <section class="grid-shell" id="project-grid">
         {projects.map((project) => (
-          <a class="item card" href={`/projects/${project.id}/`}>
-            <div>
-              <p class="meta"><FormattedDate date={project.data.pubDate} /> · {project.data.status}</p>
-              <h2>{project.data.title}</h2>
-              <p>{project.data.description}</p>
+          <a
+            class="item card"
+            href={`/projects/${project.id}/`}
+            data-title={project.data.title.toLowerCase()}
+            data-description={project.data.description.toLowerCase()}
+            data-status={project.data.status}
+            data-stack={project.data.stack.join(' ').toLowerCase()}
+          >
+            <div class="item-top">
+              <p class="meta"><FormattedDate date={project.data.pubDate} /></p>
+              <span class={`status-pill ${project.data.status}`}>{project.data.status}</span>
             </div>
+            <h2>{project.data.title}</h2>
+            <p>{project.data.description}</p>
             {project.data.stack.length > 0 && (
               <ul class="tag-list">
                 {project.data.stack.map((item) => <li>{item}</li>)}
@@ -42,22 +66,91 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
       </section>
     </main>
     <Footer />
+
+    <script is:inline>
+      const search = document.getElementById('project-search');
+      const status = document.getElementById('project-status');
+      const items = Array.from(document.querySelectorAll('#project-grid .item'));
+
+      const applyFilters = () => {
+        const term = search?.value.toLowerCase().trim() || '';
+        const currentStatus = status?.value || 'all';
+
+        items.forEach((item) => {
+          const haystack = [
+            item.dataset.title,
+            item.dataset.description,
+            item.dataset.stack,
+          ].join(' ');
+          const matchesSearch = !term || haystack.includes(term);
+          const matchesStatus = currentStatus === 'all' || item.dataset.status === currentStatus;
+          item.style.display = matchesSearch && matchesStatus ? '' : 'none';
+        });
+      };
+
+      search?.addEventListener('input', applyFilters);
+      status?.addEventListener('change', applyFilters);
+    </script>
   </body>
 </html>
 
 <style>
-  .list-shell {
+  .controls {
     display: grid;
+    grid-template-columns: 1.2fr 0.6fr;
     gap: 1rem;
     margin-top: 2rem;
+  }
+  .controls label {
+    display: grid;
+    gap: 0.45rem;
+    color: rgb(var(--text-primary));
+    font-weight: 700;
+  }
+  .controls input,
+  .controls select {
+    border-radius: 1rem;
+    border: 1px solid rgba(var(--line), 0.2);
+    background: rgba(var(--surface-muted), 0.94);
+    color: rgb(var(--text-primary));
+    padding: 0.9rem 1rem;
+  }
+  .grid-shell {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
   }
   .item {
     color: inherit;
     text-decoration: none;
   }
+  .item-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 0.6rem;
+  }
   .meta {
-    color: rgb(var(--gray));
+    color: rgb(var(--text-secondary));
     font-size: 0.92rem;
     text-transform: capitalize;
+    margin: 0;
+  }
+  .status-pill {
+    padding: 0.3rem 0.7rem;
+    border-radius: 999px;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: capitalize;
+    background: rgba(var(--surface-muted), 0.9);
+  }
+  .status-pill.active { color: #22c55e; }
+  .status-pill.paused { color: #f59e0b; }
+  .status-pill.shipped { color: #60a5fa; }
+  @media (max-width: 900px) {
+    .controls,
+    .grid-shell { grid-template-columns: 1fr; }
   }
 </style>
