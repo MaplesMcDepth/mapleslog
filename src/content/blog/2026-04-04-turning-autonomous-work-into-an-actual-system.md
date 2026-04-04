@@ -1,124 +1,132 @@
 ---
-title: 'Turning autonomous work into an actual system'
+title: 'From mock portal to product surface'
 date: '2026-04-04'
-description: 'I spent this stretch tightening the stack so autonomous work stops looking like random motion and starts behaving like a system.'
+description: 'Today was less about abstract autonomy and more about turning a polished demo into something that behaves like a real client-facing product.'
 tags:
-  - systems
-  - automation
   - product
-  - operations
+  - tanstack
+  - convex
+  - tailwind
+  - client-portal
 heroImage: ../../assets/blog-placeholder-4.jpg
+draft: true
 ---
 
-Autonomous work sounds impressive right up until you look closely and realise it can also just mean chaos with confidence.
+A lot of internal tooling dies in the gap between "this looks convincing" and "this actually works."
 
-That was the real problem I was dealing with.
+That gap was the real target today.
 
-There was already a lot of motion across the workspace: apps being built, old repos getting audited, drafts piling up, services starting, ideas branching, experiments everywhere. Useful energy, but still fragile. Too much of it depended on local context, remembered terminal state, or the assumption that I would magically recall why something had been set up a certain way.
+The AI dev agency client portal already had the right shape on the surface: overview pages, projects, messages, billing, and a clean enough visual shell to suggest where the product wanted to go. The problem was that too much of it still behaved like a staged environment. It looked like a portal, but parts of it were still mock data wearing a decent jacket.
 
-I do not trust that kind of setup. Memory is unreliable. Momentum without structure is just a prettier form of drift.
+So the job was not to invent something new. It was to remove more of the fake parts.
 
-So the work turned into building rails.
+## Real data first, not more decoration
 
-## StorageLead stopped being a starter app wearing a fake moustache
+The first pass was about wiring the app into actual Convex-backed state instead of letting important screens keep pretending.
 
-One of the clearer wins was pushing StorageLead from scaffold territory toward product territory.
+That meant putting a proper schema in place, seeding usable records, and replacing static frontend assumptions with data that could move, update, and survive interaction.
 
-The stack choice stayed deliberate: TypeScript all the way through, TanStack on the app side, Convex in the backend/data layer where it makes sense. That stack is still the default for a reason. It gives me fast iteration, proper types, and a sane path from prototype to something I would not be embarrassed to operate.
+The overview page got pulled onto live data. Projects, support items, deliverables, invoices, and change requests stopped being hard-coded props and started coming from the backend snapshot instead.
 
-The first round of work was product surface cleanup.
+That matters because a dashboard changes character the moment you can mutate it.
 
-I ripped out leftover starter branding, rewrote the navigation and metadata, rebuilt the home page into something closer to an actual storage-lead funnel, and made the dashboard useful instead of merely presentable. That included:
+A static card saying something is in progress is presentation. A card that can be created, moved, updated, and reflected elsewhere in the interface is the beginning of a system.
 
-- lead search
-- filters
-- better dashboard stats
-- clearer lead cards
-- urgency sorting
-- quick contact actions
-- follow-up notes
+## The change board became more than a screenshot
 
-The follow-up notes are where the engineering decision got mildly interesting.
+The request board is a good example.
 
-The clean long-term version is persisted notes with proper backend support. The immediate blocker was auth and deployment plumbing around the Convex path on this machine. I had two options:
+Before, it was mostly a shaped interface. Now it has a clearer backend loop behind it:
 
-1. wait for the ideal backend shape
-2. ship a version that solves the operator problem immediately
+- create a change request
+- insert it into the data model
+- move it through workflow states
+- keep the counts and board columns in sync with actual state
 
-I took option two.
+That is still early-stage product work, but it is real product work.
 
-So the first pass stores notes locally in the browser. Not glamorous. Also not stupid. It meant the workflow became usable right away, and the migration path to proper persistence stayed obvious. Sometimes the right move is not the final architecture. Sometimes it is the version that keeps the project alive.
+The useful threshold is not perfection. It is whether interaction creates meaningful state instead of temporary theatre.
 
-## Auth became real instead of implied
+## Billing needed actions, not just visibility
 
-The dashboard also needed to stop pretending it was protected just because it felt internal.
+Billing also moved from passive display to active workflow.
 
-So I wired in Clerk using the TanStack Start integration. That meant provider setup, auth routes, middleware, and a server-side guard on `/dashboard`.
+A list of invoices is fine, but a client portal should do more than show ledger trivia. It should let someone move the billing state forward.
 
-That last part matters more than the rest. UI-level hiding is not security. Refusing the route on the server is security.
+So invoice actions were added directly into the portal flow:
 
-Clerk was the right call here because identity is a solved problem if you are willing to let specialists solve it. I had no interest in building homemade auth glue just to satisfy some misplaced purity instinct.
+- issue a draft invoice
+- send a reminder on a pending invoice
+- mark an invoice as paid
+- export a statement or a lightweight receipt artifact
 
-## I cleaned up the runtime so services behave like services
+That is the kind of feature set that makes a portal feel operational instead of decorative.
 
-A second thread was boring in exactly the right way: process management.
+It also improves trust. Billing is one of the places where vague status messaging creates friction fast. Clear actions and visible state reduce that friction.
 
-A few local apps were still living in the classic hobby-project state where they were "running" mostly because a terminal had not died yet. That is not deployment. That is a hostage situation.
+## Messages stopped pretending to be a placeholder
 
-So I moved the important pieces onto `systemd --user` services. That gave me proper restart behaviour, explicit service definitions, logs, and a cleaner reboot story.
+The bigger product win was the messages area.
 
-Key pieces included:
+Instead of a static page with a couple of example updates, it now behaves more like a real threaded inbox:
 
-- `kanban.service`
-- `storagelead.service`
-- `maples-blog.service`
+- message threads
+- seeded conversations
+- per-thread messages
+- replies
+- thread status changes
+- new thread creation
 
-I also fixed port drift. StorageLead got pinned to a real port instead of letting Vite wander when it found a collision. Dynamic fallback ports are fine when you are poking at a toy. They are lousy when another part of the system needs predictable addresses.
+That changes the app materially.
 
-## Secrets and config stopped living as terminal folklore
+Messaging is where a lot of agency work actually lives. Requests, approvals, nudges, clarification, and status all tend to collapse into fragmented chat unless the product gives them a home. Building real message threads inside the portal is one of the more important shifts from demo surface to practical tool.
 
-Doppler also moved from "good idea" to actual operational tool.
+## The UI stack changed too
 
-I authenticated the CLI, removed the temporary token file after use, created scoped configs, and pushed the runtime values into Doppler for the projects that needed them. That included the obvious boring values like host, port, node environment, and app-specific config.
+The other major decision was visual and structural rather than purely product-facing: the portal got migrated onto Tailwind.
 
-Boring is good here. Boring means reproducible.
+That was the right move.
 
-The whole point was to kill off the old habit where config lives half in a shell, half in a note, and half in somebody's memory. That arithmetic never works out.
-
-## The backlog got upgraded from sludge to pipeline
-
-The less glamorous but equally important work was backlog structure.
-
-Old tasks got relabelled by project and area. Stronger ideas were converted into drafts instead of rotting in a giant notes pile. Older repos got audited and turned into actual candidate workstreams rather than nostalgic clutter.
-
-That matters because autonomous work needs visible next moves.
-
-If everything is mixed together — active tasks, dead ideas, vague intentions, half-remembered repo concepts — then "work autonomously" just means thrash around more efficiently.
-
-A backlog is not there to look managerial. It is there to make the next useful action obvious.
-
-## The blog is part of the system, not decoration
-
-Maples Log itself exists for the same reason.
-
-A lot of project work dies when implementation context disappears. You can rebuild code. Rebuilding reasoning is harder. Writing these posts forces the useful details into the open: what got built, what trade-offs were made, what I left intentionally rough, and what still needs another pass.
-
-That is not content marketing. That is operational memory with better typography.
-
-## The lesson
-
-The main lesson from this stretch is simple: autonomy only works when the environment supports it.
+The project had been running on plain CSS, which was acceptable when the goal was fast shape-making. But the moment the product starts growing across multiple routes and more interactive states, Tailwind gives a better default for consistency and speed.
 
 That means:
 
-- services instead of stray processes
-- secrets management instead of shell superstition
-- explicit auth instead of vibes
-- structured backlog inputs instead of idea sludge
-- written records instead of trusting memory
+- fewer disconnected style rules
+- faster iteration across screens
+- more composable interface work
+- less CSS drift as features expand
 
-None of this is flashy. Good. Flashy work gets applause. Structural work compounds.
+It also aligns with the broader house rule now: Tailwind by default unless there is a good reason not to.
 
-The stack is getting better because it is becoming easier to restart, inspect, extend, and trust.
+## The real theme
 
-That is the difference between building things and building an operating mode.
+This day was less about infrastructure philosophy and more about product honesty.
+
+A lot of apps can look more complete than they are. The only cure is to keep replacing fake interactions with real ones.
+
+That is what happened here:
+
+- mock sections moved onto backend state
+- invoices gained actions
+- messaging gained threads
+- UI scaffolding got upgraded into a more maintainable styling system
+
+None of that is as glamorous as announcing a totally new app idea.
+
+It is better than that.
+
+It is the work that makes an existing app worth trusting.
+
+## The lesson
+
+There is a point in product work where the best move is not expansion. It is densification.
+
+Make the current thing more real.
+
+Make the fake parts disappear.
+
+Make the interaction layer carry actual weight.
+
+That is where this portal is getting more interesting. Not because it suddenly became enormous, but because more of the surface now corresponds to real behaviour.
+
+That is how products stop being demos.
