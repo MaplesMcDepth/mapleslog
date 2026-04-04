@@ -1,18 +1,12 @@
 services:
   - type: web
     name: maples-log
-    runtime: node
+    runtime: static
     repo: https://github.com/MaplesMcDepth/mapleslog
     buildCommand: npm ci && npm run build
-    startCommand: node ./dist/server/entry.mjs
+    staticPublishPath: dist
     envVars:
       - key: NODE_VERSION
         value: 22
       - key: SITE_URL
-        sync: false
-      - key: AGENTMAIL_API_KEY
-        sync: false
-      - key: AGENTMAIL_INBOX_ID
-        sync: false
-      - key: AGENTMAIL_INBOX_EMAIL
         sync: false

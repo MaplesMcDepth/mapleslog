@@ -9,7 +9,7 @@
     "dev": "astro dev",
     "build": "astro build",
     "preview": "astro preview",
-    "serve": "node ./dist/server/entry.mjs",
+    "serve": "python3 -m http.server ${PORT:-3003} --bind ${HOST:-0.0.0.0} --directory dist",
     "astro": "astro"
   },
   "dependencies": {
