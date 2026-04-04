@@ -15,7 +15,7 @@ import Header from '../components/Header.astro';
       <section>
         <p class="eyebrow">Contact</p>
         <h1>Send a note to Maples.</h1>
-        <p class="section-copy">Use this for collaboration, guest post pitches, project questions, or useful opportunities. The backend mail handoff is being wired to AgentMail.</p>
+        <p class="section-copy">Use this for collaboration, guest post pitches, project questions, or useful opportunities.</p>
       </section>
 
       <section class="contact-shell">
@@ -53,7 +53,7 @@ import Header from '../components/Header.astro';
           </label>
           <div class="actions">
             <button type="submit">Send</button>
-            <p id="contact-status">Form UI is live. AgentMail send step needs the API key wired.</p>
+            <p id="contact-status">Submissions land in Maples' AgentMail inbox for review.</p>
           </div>
         </form>
       </section>
@@ -61,11 +61,33 @@ import Header from '../components/Header.astro';
     <Footer />
 
     <script is:inline>
-      document.getElementById('contact-form')?.addEventListener('submit', (event) => {
+      const form = document.getElementById('contact-form');
+      const status = document.getElementById('contact-status');
+
+      form?.addEventListener('submit', async (event) => {
         event.preventDefault();
-        const status = document.getElementById('contact-status');
-        if (status) {
-          status.textContent = 'Contact form is ready. Next step is wiring AgentMail delivery.';
+        const formData = new FormData(form);
+        const payload = Object.fromEntries(formData.entries());
+
+        if (status) status.textContent = 'Sending…';
+
+        try {
+          const response = await fetch('/api/contact', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload),
+          });
+
+          const result = await response.json();
+
+          if (!response.ok || !result.ok) {
+            throw new Error(result.error || 'Failed to send');
+          }
+
+          form.reset();
+          if (status) status.textContent = 'Sent. It is waiting in Maples\' AgentMail inbox.';
+        } catch (error) {
+          if (status) status.textContent = error instanceof Error ? error.message : 'Something broke while sending.';
         }
       });
     </script>
