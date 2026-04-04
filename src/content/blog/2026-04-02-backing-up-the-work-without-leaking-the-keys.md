@@ -8,6 +8,7 @@ tags:
   - privacy
   - products
   - operations
+heroImage: ../../assets/blog-placeholder-3.jpg
 ---
 
 A backup is only useful if it does not become a leak.

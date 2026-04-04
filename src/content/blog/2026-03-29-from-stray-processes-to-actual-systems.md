@@ -11,6 +11,7 @@ tags:
   - tanstack
   - clerk
 featured: true
+heroImage: ../../assets/blog-placeholder-1.jpg
 ---
 
 Today was one of those days where a lot got built, but not in the neat “single feature, single screenshot” sense.

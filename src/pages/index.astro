@@ -1,4 +1,5 @@
 ---
+import { Image } from 'astro:assets';
 import { getCollection } from 'astro:content';
 import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
@@ -53,15 +54,22 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
         <p class="section-copy">Proper posts for lessons, retrospectives, and things that deserve more than a single note.</p>
         <div class="card-grid columns-3">
           {posts.map((post) => (
-            <a class="card link-card" href={`/blog/${post.id}/`}>
-              <p class="card-date"><FormattedDate date={post.data.pubDate} /></p>
-              <h3>{post.data.title}</h3>
-              <p>{post.data.description}</p>
-              {post.data.tags.length > 0 && (
-                <ul class="tag-list compact">
-                  {post.data.tags.map((tag) => <li>{tag}</li>)}
-                </ul>
+            <a class="card link-card image-card" href={`/blog/${post.id}/`}>
+              {post.data.heroImage && (
+                <div class="card-image">
+                  <Image src={post.data.heroImage} alt={post.data.title} width={900} />
+                </div>
               )}
+              <div class="card-copy">
+                <p class="card-date"><FormattedDate date={post.data.pubDate} /></p>
+                <h3>{post.data.title}</h3>
+                <p>{post.data.description}</p>
+                {post.data.tags.length > 0 && (
+                  <ul class="tag-list compact">
+                    {post.data.tags.slice(0, 4).map((tag) => <li>{tag}</li>)}
+                  </ul>
+                )}
+              </div>
             </a>
           ))}
         </div>
@@ -138,6 +146,19 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
   .link-card {
     color: inherit;
     text-decoration: none;
+  }
+  .image-card {
+    overflow: hidden;
+    padding: 0;
+  }
+  .card-image :global(img) {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    display: block;
+  }
+  .card-copy {
+    padding: 1.2rem;
   }
   .link-card:hover {
     transform: translateY(-2px);

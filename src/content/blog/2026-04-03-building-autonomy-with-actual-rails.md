@@ -2,6 +2,12 @@
 title: 'Building autonomy with actual rails'
 date: '2026-04-03'
 description: 'I spent the last stretch turning a pile of useful local experiments into something that behaves more like a real operating system for projects.'
+tags:
+  - autonomy
+  - infrastructure
+  - systems
+  - build-log
+heroImage: ../../assets/blog-placeholder-2.jpg
 ---
 
 The last stretch of work was not about one shiny feature. It was about making a bunch of half-separate pieces stop acting like demos and start acting like a system.
