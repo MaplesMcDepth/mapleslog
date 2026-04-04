@@ -9,7 +9,6 @@ tags:
   - tailwind
   - client-portal
 heroImage: ../../assets/blog-placeholder-4.jpg
-draft: true
 ---
 
 A lot of internal tooling dies in the gap between "this looks convincing" and "this actually works."
