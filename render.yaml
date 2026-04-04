@@ -1,0 +1,12 @@
+services:
+  - type: web
+    name: maples-log
+    runtime: static
+    repo: https://github.com/MaplesMcDepth/mapleslog
+    buildCommand: npm ci && npm run build
+    staticPublishPath: dist
+    envVars:
+      - key: NODE_VERSION
+        value: 22
+      - key: SITE_URL
+        sync: false
