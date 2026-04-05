@@ -31,9 +31,6 @@ import HeaderLink from './HeaderLink.astro';
 <script is:inline>
   const root = document.documentElement;
   const storageKey = 'maples-theme';
-  const saved = localStorage.getItem(storageKey);
-  const preferred = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
-  if (!root.dataset.theme) root.dataset.theme = saved || preferred;
 
   const updateTheme = () => {
     document.querySelectorAll('[data-theme-toggle]').forEach((button) => {
