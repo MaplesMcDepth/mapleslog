@@ -3,7 +3,6 @@ export const SITE_DESCRIPTION = 'Build logs, project notes, mistakes, fixes, and
 export const SITE_TAGLINE = 'A developer field log for things built, broken, fixed, and learned.';
 export const SITE_AUTHOR = 'Maples';
 export const NAV_LINKS = [
-  { href: '/', label: 'Home' },
   { href: '/blog', label: 'Posts' },
   { href: '/projects', label: 'Projects' },
   { href: '/contact', label: 'Contact' },

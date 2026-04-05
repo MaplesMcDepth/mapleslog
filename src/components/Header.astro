@@ -138,15 +138,45 @@ import HeaderLink from './HeaderLink.astro';
     transform: scale(0.75);
   }
   @media (max-width: 760px) {
-    nav {
-      padding: 0.75rem 0;
-      align-items: flex-start;
-      flex-direction: column;
+    header {
+      padding: 0 0.7rem;
     }
-    .nav-cluster,
+    nav {
+      min-height: 4rem;
+      gap: 0.6rem;
+    }
+    .brand {
+      gap: 0.65rem;
+      min-width: 0;
+    }
+    .brand-mark {
+      width: 2.2rem;
+      height: 2.2rem;
+      font-size: 1rem;
+    }
+    .brand strong {
+      font-size: 0.92rem;
+    }
+    .brand small {
+      display: none;
+    }
+    .nav-cluster {
+      gap: 0.35rem;
+      min-width: 0;
+    }
     .internal-links {
-      width: 100%;
-      justify-content: space-between;
+      gap: 0;
+      flex-wrap: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+    }
+    .internal-links::-webkit-scrollbar {
+      display: none;
+    }
+    .theme-toggle {
+      width: 2.45rem;
+      height: 2.45rem;
+      flex: 0 0 auto;
     }
   }
 </style>
