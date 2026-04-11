@@ -9,6 +9,8 @@ import Header from '../../components/Header.astro';
 const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
   (a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf(),
 );
+
+const getReadingTime = (body: string) => `${Math.max(1, Math.ceil(body.split(/\s+/).filter(Boolean).length / 220))} min read`;
 ---
 
 <!doctype html>
@@ -38,6 +40,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
                 <FormattedDate date={post.data.pubDate} />
                 <span aria-hidden="true"> · </span>
                 <span>By {post.data.author}</span>
+                <span aria-hidden="true"> · </span>
+                <span>{getReadingTime(post.body)}</span>
               </p>
               <h2>{post.data.title}</h2>
               <p>{post.data.description}</p>

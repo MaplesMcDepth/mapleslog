@@ -13,9 +13,10 @@ interface Props {
   heroImage?: any;
   tags?: string[];
   author?: string;
+  readingTime?: string;
 }
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [], author = 'Maples' } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [], author = 'Maples', readingTime } = Astro.props;
 ---
 
 <html lang="en">
@@ -45,7 +46,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], author =
                 )}
               </div>
             )}
-            <p class="author-byline">By {author}</p>
+            <p class="author-byline">By {author}{readingTime ? ` · ${readingTime}` : ''}</p>
           </div>
           {tags.length > 0 && (
             <ul class="tag-list">
