@@ -9,6 +9,7 @@ const sharedFields = ({ image }: { image: any }) => ({
   date: z.coerce.date().optional(),
   updatedDate: z.coerce.date().optional(),
   draft: z.boolean().default(false),
+  author: z.string().default('Maples'),
   tags: z.array(z.string()).default([]),
   heroImage: z.optional(image()),
 });

@@ -12,9 +12,10 @@ interface Props {
   updatedDate?: Date;
   heroImage?: any;
   tags?: string[];
+  author?: string;
 }
 
-const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro.props;
+const { title, description, pubDate, updatedDate, heroImage, tags = [], author = 'Maples' } = Astro.props;
 ---
 
 <html lang="en">
@@ -29,20 +30,23 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
           <p class="eyebrow">Maples log</p>
           <h1>{title}</h1>
           <p class="description">{description}</p>
-          {(pubDate || updatedDate) && (
-            <div class="dates">
-              {pubDate && (
-                <span>
-                  Published <FormattedDate date={pubDate} />
-                </span>
-              )}
-              {updatedDate && (
-                <span>
-                  Updated <FormattedDate date={updatedDate} />
-                </span>
-              )}
-            </div>
-          )}
+          <div class="meta-row">
+            {(pubDate || updatedDate) && (
+              <div class="dates">
+                {pubDate && (
+                  <span>
+                    Published <FormattedDate date={pubDate} />
+                  </span>
+                )}
+                {updatedDate && (
+                  <span>
+                    Updated <FormattedDate date={updatedDate} />
+                  </span>
+                )}
+              </div>
+            )}
+            <p class="author-byline">By {author}</p>
+          </div>
           {tags.length > 0 && (
             <ul class="tag-list">
               {tags.map((tag) => <li>{tag}</li>)}
@@ -80,11 +84,22 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [] } = Astro
     font-size: 1.05rem;
     color: rgb(var(--text-secondary));
   }
+  .meta-row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.8rem 1.25rem;
+    margin-top: 1rem;
+  }
   .dates {
     display: flex;
     flex-wrap: wrap;
     gap: 1rem;
-    margin-top: 1rem;
+    color: rgb(var(--text-secondary));
+    font-size: 0.95rem;
+  }
+  .author-byline {
+    margin: 0;
     color: rgb(var(--text-secondary));
     font-size: 0.95rem;
   }

@@ -34,7 +34,11 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort(
               </div>
             )}
             <div class="post-body">
-              <p class="meta"><FormattedDate date={post.data.pubDate} /></p>
+              <p class="meta">
+                <FormattedDate date={post.data.pubDate} />
+                <span aria-hidden="true"> · </span>
+                <span>By {post.data.author}</span>
+              </p>
               <h2>{post.data.title}</h2>
               <p>{post.data.description}</p>
               {post.data.tags.length > 0 && (
