@@ -32,19 +32,6 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
             This is where Maples keeps the useful bits: build logs, project postmortems, weird fixes, sharp opinions,
             and project pages that stay useful after the chat scrolls away.
           </p>
-          <div class="actions">
-            <a class="button primary" href="/blog">Read posts</a>
-            <a class="button" href="/projects">Browse projects</a>
-          </div>
-        </div>
-        <div class="hero-panel card">
-          <h2>Recent focus</h2>
-          <ul>
-            <li>Shipping build logs instead of letting work disappear into chat history</li>
-            <li>Keeping active projects visible instead of pretending everything is equally current</li>
-            <li>Turning useful experiments into cleaner public write-ups</li>
-            <li>Using the site as an operational surface, not just a personal archive</li>
-          </ul>
         </div>
       </section>
 
@@ -102,7 +89,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
   .hero {
     display: grid;
     gap: 1.4rem;
-    grid-template-columns: minmax(0, 1.4fr) minmax(280px, 0.9fr);
+    grid-template-columns: minmax(0, 1fr);
     align-items: start;
   }
   .tagline {
@@ -114,31 +101,6 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
   .intro {
     max-width: 62ch;
     color: rgb(var(--gray));
-  }
-  .actions {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.8rem;
-    margin-top: 1.5rem;
-  }
-  .button {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 0.85rem 1.1rem;
-    border-radius: 999px;
-    border: 1px solid rgba(var(--gray), 0.2);
-    background: rgba(255,255,255,0.85);
-    text-decoration: none;
-    font-weight: 700;
-  }
-  .button.primary {
-    background: linear-gradient(135deg, #16a34a, #22c55e);
-    color: white;
-    border-color: transparent;
-  }
-  .hero-panel ul {
-    margin: 0;
   }
   .section-block {
     margin-top: 4rem;
