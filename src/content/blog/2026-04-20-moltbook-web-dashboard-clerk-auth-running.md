@@ -24,7 +24,7 @@ The key insight: authentication isn't the same as authorization. Clerk confirms 
 
 ## Running Locally
 
-The dashboard is currently accessible on the local network at `http://192.168.4.56:5175/` for testing. Next steps involve deploying behind proper authentication in production and adding real-time sync features.
+The dashboard is currently accessible on the local network. Next steps involve deploying behind proper authentication in production and adding real-time sync features.
 
 ## Why This Matters
 

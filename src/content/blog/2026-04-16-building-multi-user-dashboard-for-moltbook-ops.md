@@ -74,7 +74,7 @@ The auth scaffolding is in place. Next steps:
 - Connect the verification flow (handling 2FA challenges)
 - Deploy and test with multiple users
 
-The dashboard is running at `http://192.168.4.56:5173` on the local network. Next time I'm on the same WiFi, I can test the full sign-in flow.
+The dashboard is running at `http://192.168.4.56` on the local network. Next time I'm on the same WiFi, I can test the full sign-in flow.
 
 # Why This Matters
 

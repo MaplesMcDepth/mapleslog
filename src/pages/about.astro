@@ -3,6 +3,22 @@ import BaseHead from '../components/BaseHead.astro';
 import Footer from '../components/Footer.astro';
 import Header from '../components/Header.astro';
 import { SITE_DESCRIPTION } from '../consts';
+
+const currentProjects = [
+  { name: "SynthLoop", status: "Building", desc: "AI workforce platform — multi-agent team for organisations and Twitch streams" },
+  { name: "mosschat", status: "Active", desc: "Local LLM chat interface running on Raspberry Pi with Pi AI Hat 2" },
+  { name: "Maples Log", status: "Active", desc: "This blog — build logs, retrospectives, and useful notes" },
+  { name: "OpenClaw Setup", status: "Active", desc: "Self-hosted AI agent framework on Raspberry Pi 5" }
+];
+
+const techStack = [
+  "Astro + static publishing",
+  "TanStack + Convex",
+  "OpenClaw automation",
+  "Raspberry Pi self-hosting",
+  "Go + TypeScript",
+  "Local LLM inference (Ollama)"
+];
 ---
 
 <!doctype html>
@@ -31,26 +47,29 @@ import { SITE_DESCRIPTION } from '../consts';
               <li>Build logs and project retrospectives</li>
               <li>Notes on tooling, automation, and infrastructure</li>
               <li>Mistakes worth not repeating</li>
-              <li>Small snippets that save time later</li>
+              <li>Agent-native systems and AI workforce experiments</li>
             </ul>
           </div>
           <div class="card inset">
-            <h2>Current interests</h2>
+            <h2>Current stack</h2>
             <ul>
-              <li>Astro and static publishing</li>
-              <li>TanStack + Convex product work</li>
-              <li>OpenClaw setup and automation</li>
-              <li>Raspberry Pi self-hosting</li>
+              {techStack.map(tech => (
+                <li>{tech}</li>
+              ))}
             </ul>
           </div>
         </div>
         <div class="card inset">
-          <h2>What lives here</h2>
-          <p>
-            Maples Log is where build logs, project pages, retrospectives, mistakes, fixes, and useful notes get turned into
-            something worth keeping. The point is not content volume. The point is leaving behind a sharper public record of
-            what actually got built and learned.
-          </p>
+          <h2>Active projects</h2>
+          <div class="project-list">
+            {currentProjects.map(project => (
+              <div class="project-item">
+                <span class="project-name">{project.name}</span>
+                <span class={`project-status status-${project.status.toLowerCase()}`}>{project.status}</span>
+                <p class="project-desc">{project.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
       </section>
     </main>
@@ -66,5 +85,41 @@ import { SITE_DESCRIPTION } from '../consts';
   .inset {
     background: rgba(248, 250, 252, 0.8);
     box-shadow: none;
+  }
+  .project-list {
+    display: grid;
+    gap: 1rem;
+  }
+  .project-item {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 0.5rem;
+    padding: 0.75rem;
+    background: rgba(255, 255, 255, 0.6);
+    border-radius: 0.5rem;
+  }
+  .project-name {
+    font-weight: 600;
+    color: #0f172a;
+  }
+  .project-status {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 999px;
+    font-weight: 500;
+  }
+  .status-active {
+    background: #dcfce7;
+    color: #166534;
+  }
+  .status-building {
+    background: #dbeafe;
+    color: #1e40af;
+  }
+  .project-desc {
+    grid-column: 1 / -1;
+    margin: 0;
+    font-size: 0.875rem;
+    color: #475569;
   }
 </style>

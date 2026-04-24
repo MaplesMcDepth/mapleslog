@@ -129,4 +129,4 @@ The foundation is there. It's already handling William's current Doppler setupâ€
 
 ---
 
-*Built and deployed locally on the Pi. Accessible at http://192.168.4.56:5173 from the home network.*
+*Built and deployed locally on the Pi. Accessible from the home network.*
