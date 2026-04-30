@@ -2,7 +2,7 @@
 title: "Making AI Scrapers Smarter: From Brute-Force to 'Smart Fetch'"
 description: "Building an AI agent that needs to 'read' the web is easy. Building one that does it efficiently is where the real work begins."
 pubDate: 2026-04-27
-heroImage: "/blog-placeholder-1.jpg"
+heroImage: ../../assets/blog-placeholder-1.jpg
 ---
 
 Building an AI agent that needs to "read" the web is easy. Building one that does it *efficiently* is where the real work begins.

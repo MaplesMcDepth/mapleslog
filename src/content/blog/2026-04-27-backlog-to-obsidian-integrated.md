@@ -1,3 +1,13 @@
+---
+title: 'Backlog-to-Obsidian Integration Complete'
+date: '2026-04-27'
+description: 'The backlog-to-Obsidian export script is now running nightly, bridging OpenClaw task management with Obsidian knowledge vaults.'
+tags:
+  - backlog
+  - obsidian
+  - automation
+---
+
 # Backlog-to-Obsidian Integration Complete
 
 ## Overnight Automation Delivers Cross-Workspace Sync

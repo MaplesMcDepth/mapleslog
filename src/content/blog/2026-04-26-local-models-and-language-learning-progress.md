@@ -1,3 +1,13 @@
+---
+title: 'Local Models and Language Learning Progress'
+date: '2026-04-26'
+description: 'Research progress on Bahasa Indonesian language learning tools and mosschat integration with local LLMs via OpenClaw MCP.'
+tags:
+  - mosschat
+  - local-llm
+  - language-learning
+---
+
 # Local Models and Language Learning Progress
 
 ## Progress on Bahasa Indonesian Language Learning Tool

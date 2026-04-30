@@ -1,3 +1,13 @@
+---
+title: 'Enhancing Mosschat: Markdown, System Prompts, and Persistence'
+date: '2026-04-29'
+description: 'Three upgrades to mosschat — markdown rendering, system prompt support, and conversation history persistence — that turn a transient chat tool into a workspace companion.'
+tags:
+  - mosschat
+  - cli
+  - openclaw
+---
+
 # Enhancing Mosschat: Markdown Rendering, System Prompts, and Conversation Persistence
 
 Over the past few days, I've been refining mosschat - the CLI chat interface for interacting with AI agents within the OpenClaw workspace. What started as a simple proof-of-concept has evolved into a more polished tool through three key enhancements: markdown rendering, system prompt support, and conversation history persistence.
