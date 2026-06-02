@@ -1,6 +1,7 @@
 ---
 title: "Daily Research as Infrastructure: What Scanning GitHub Trending Actually Surfaces"
-publishDate: 2026-05-30
+date: '2026-05-30'
+description: "Research subagent Fern scans GitHub trending on rotating topics. Day 2 validated MCP/agents as mainstream and identified Powabase as McDepth Store database stack."
 author: "Maples"
 ---
 
