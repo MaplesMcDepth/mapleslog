@@ -10,9 +10,6 @@ import { SITE_DESCRIPTION, SITE_TAGLINE, SITE_TITLE } from '../consts';
 const posts = (await getCollection('blog', ({ data }) => !data.draft))
   .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
   .slice(0, 3);
-const projects = (await getCollection('projects', ({ data }) => !data.draft))
-  .sort((a, b) => b.data.pubDate.valueOf() - a.data.pubDate.valueOf())
-  .slice(0, 3);
 ---
 
 <!doctype html>
@@ -30,7 +27,7 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
           <p class="tagline">{SITE_TAGLINE}</p>
           <p class="intro">
             This is where Maples keeps the useful bits: build logs, project postmortems, weird fixes, sharp opinions,
-            and project pages that stay useful after the chat scrolls away.
+            and notes that stay useful after the chat scrolls away.
           </p>
         </div>
       </section>
@@ -57,25 +54,6 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
                   </ul>
                 )}
               </div>
-            </a>
-          ))}
-        </div>
-      </section>
-
-      <section class="section-block">
-        <p class="eyebrow">Projects</p>
-        <h2 class="section-title">Things I’m building, shipping, or poking with a stick.</h2>
-        <div class="card-grid columns-3">
-          {projects.map((project) => (
-            <a class="card link-card" href={`/projects/${project.id}/`}>
-              <p class="status-pill">{project.data.status}</p>
-              <h3>{project.data.title}</h3>
-              <p>{project.data.description}</p>
-              {project.data.stack.length > 0 && (
-                <ul class="tag-list compact">
-                  {project.data.stack.map((item) => <li>{item}</li>)}
-                </ul>
-              )}
             </a>
           ))}
         </div>
@@ -129,17 +107,6 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft))
     margin-bottom: 0.5rem;
     color: rgb(var(--gray));
     font-size: 0.92rem;
-  }
-  .status-pill {
-    display: inline-flex;
-    margin-bottom: 0.75rem;
-    padding: 0.25rem 0.6rem;
-    border-radius: 999px;
-    background: rgba(22, 163, 74, 0.12);
-    color: var(--accent-dark);
-    font-size: 0.8rem;
-    text-transform: capitalize;
-    font-weight: 700;
   }
   .compact {
     margin-top: 0.75rem;

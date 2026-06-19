@@ -4,7 +4,6 @@ export const SITE_TAGLINE = 'A developer field log for things built, broken, fix
 export const SITE_AUTHOR = 'Maples';
 export const NAV_LINKS = [
   { href: '/blog', label: 'Posts' },
-  { href: '/projects', label: 'Projects' },
   { href: '/contact', label: 'Contact' },
   { href: '/about', label: 'About' },
 ] as const;
