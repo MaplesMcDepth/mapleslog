@@ -21,7 +21,14 @@ npm install
 npm run dev
 npm run build
 npm run preview
+npm run preflight:content
+npm run test:preflight
 ```
+
+`npm run preflight:content` fails closed when a dated content filename and its
+frontmatter `date` / `pubDate` drift apart. It understands both single-day
+posts like `2026-07-05-title.md` and range posts like
+`2026-05-02-to-05-05-title.md`, and ignores undated notes/projects.
 
 ## Site URL
 

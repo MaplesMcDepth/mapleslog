@@ -7,9 +7,11 @@
   },
   "scripts": {
     "dev": "astro dev",
-    "build": "astro build",
+    "build": "npm run preflight:content && astro build",
     "preview": "astro preview",
     "serve": "python3 -m http.server ${PORT:-3003} --bind ${HOST:-0.0.0.0} --directory dist",
+    "preflight:content": "node scripts/preflight-content.mjs",
+    "test:preflight": "node --test scripts/preflight-content.test.mjs",
     "astro": "astro"
   },
   "dependencies": {
