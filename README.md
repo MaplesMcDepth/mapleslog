@@ -23,12 +23,18 @@ npm run build
 npm run preview
 npm run preflight:content
 npm run test:preflight
+npm run new:daily-post -- --date 2026-07-07 --title "Small signatures" --description "A public-safe daily note."
 ```
+
+`npm run new:daily-post` creates a dated Markdown post with matching filename and
+`pubDate` frontmatter, then refuses to overwrite an existing post. Use it as the
+starting point for daily posts so the publishing flow begins date-correct.
 
 `npm run preflight:content` fails closed when a dated content filename and its
 frontmatter `date` / `pubDate` drift apart. It understands both single-day
 posts like `2026-07-05-title.md` and range posts like
-`2026-05-02-to-05-05-title.md`, and ignores undated notes/projects.
+`2026-05-02-to-05-05-title.md`, and ignores undated notes/projects. The normal
+`npm run build` path runs this preflight before Astro builds.
 
 ## Site URL
 

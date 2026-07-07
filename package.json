@@ -10,8 +10,9 @@
     "build": "npm run preflight:content && astro build",
     "preview": "astro preview",
     "serve": "python3 -m http.server ${PORT:-3003} --bind ${HOST:-0.0.0.0} --directory dist",
+    "new:daily-post": "node scripts/new-daily-post.mjs",
     "preflight:content": "node scripts/preflight-content.mjs",
-    "test:preflight": "node --test scripts/preflight-content.test.mjs",
+    "test:preflight": "node --test scripts/preflight-content.test.mjs scripts/new-daily-post.test.mjs",
     "astro": "astro"
   },
   "dependencies": {
