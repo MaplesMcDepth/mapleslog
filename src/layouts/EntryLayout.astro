@@ -74,11 +74,13 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], author =
   .entry-shell {
     display: grid;
     gap: 2rem;
+    min-width: 0;
   }
   .entry-intro,
   .prose {
-    max-width: 760px;
+    max-width: min(760px, 100%);
     width: 100%;
+    min-width: 0;
   }
   .description {
     max-width: 44rem;
@@ -114,6 +116,7 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], author =
     background: rgba(var(--surface), 0.92);
     border: 1px solid rgba(var(--line), 0.16);
     box-shadow: var(--box-shadow);
+    overflow-wrap: break-word;
   }
   :root[data-theme='dark'] .prose {
     background: rgba(var(--surface-muted), 0.9);
@@ -121,6 +124,24 @@ const { title, description, pubDate, updatedDate, heroImage, tags = [], author =
   }
   .prose :global(h2) {
     margin-top: 2rem;
+  }
+  .prose :global(a),
+  .prose :global(code) {
+    overflow-wrap: anywhere;
+  }
+  .prose :global(pre) {
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .prose :global(table) {
+    display: block;
+    max-width: 100%;
+    overflow-x: auto;
+  }
+  .prose :global(img),
+  .prose :global(video),
+  .prose :global(iframe) {
+    max-width: 100%;
   }
   @media (max-width: 720px) {
     .prose {

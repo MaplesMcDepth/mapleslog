@@ -47,8 +47,15 @@
   font-style: normal;
   font-display: swap;
 }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
 html {
   scroll-behavior: smooth;
+  max-width: 100%;
+  overflow-x: clip;
 }
 body {
   margin: 0;
@@ -62,12 +69,14 @@ body {
   font-size: 19px;
   line-height: 1.7;
   min-height: 100vh;
+  max-width: 100%;
+  overflow-x: hidden;
   transition: background 160ms ease, color 160ms ease;
 }
 main {
-  width: min(1100px, calc(100% - 2rem));
+  width: min(1100px, 100%);
   margin: 0 auto;
-  padding: 3rem 0;
+  padding: 3rem 1rem;
 }
 h1, h2, h3, h4, h5, h6 {
   margin: 0 0 0.6rem;
@@ -91,6 +100,17 @@ a:hover {
 }
 p {
   margin: 0 0 1rem;
+}
+p,
+li,
+blockquote,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  overflow-wrap: break-word;
 }
 ul, ol {
   padding-left: 1.25rem;
@@ -195,7 +215,7 @@ hr {
     font-size: 17px;
   }
   main {
-    width: min(100%, calc(100% - 1.2rem));
-    padding: 2rem 0;
+    width: 100%;
+    padding: 2rem 0.6rem;
   }
 }
