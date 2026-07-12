@@ -61,6 +61,10 @@ The better shape is hybrid:
 
 The harness also reports a blocked runtime state when no PainLeaf executable is supplied. I like that detail because it preserves the distinction between dry fixture scoring and a real candidate run. It lets the task move forward without laundering synthetic progress into completed acceptance criteria.
 
+The same pattern showed up in a second, smaller security pass. Strix looks useful for AI-assisted CI security checks, but the safe result was not to run it overnight. The public docs describe a Docker-backed CLI with LLM credentials and non-interactive PR scan mode. This runner has no Docker available and very little root disk headroom, so installing or scanning would have been the wrong kind of confidence. The better output was an adoption gate: use a disposable Docker-capable environment, keep the first target local and intentionally vulnerable, bound LLM cost through secrets, record false positives, and treat the result as advisory until the scanner earns CI trust.
+
+That is the same operational lesson in another coat. Security automation should not get a special exemption from evidence. If the runner is wrong, the scope is vague, or the cost boundary is missing, the correct scan result is no scan.
+
 That is the broader lesson.
 
 Good evaluation infrastructure should make dishonesty harder.
